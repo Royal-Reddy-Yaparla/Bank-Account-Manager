@@ -1,0 +1,173 @@
+class Account:
+
+  def __init__(self, customer_id):  # Parent Class
+    self.customer_id = customer_id
+
+
+class CheckingAccount(Account):
+
+  def __init__(self, cust_id, deposit_amount):
+    Account.__init__(self, cust_id)
+    self.amount = deposit_amount
+    self.withdraw_whole = 0
+    self.withdraw_part = 0
+
+  def deposit(self, deposit_amount):
+    self.amount += deposit_amount
+
+  def withdraw(self, withdraw_amount):
+    if self.amount > withdraw_amount:
+      self.amount -= withdraw_amount
+    else:
+      print("Error! Cannot withdraw larger than what you have.")
+
+  def display_amount(self):
+    print(self.amount)
+
+  def get_amount(self):
+    return (self.amount)
+
+
+class SavingsAccount(Account):
+
+  def __init__(self, cust_id, deposit_amount):
+    Account.__init__(self, cust_id)
+    self.amount = deposit_amount
+    self.withdraw_whole = 0
+    self.withdraw_part = 0
+
+  def deposit(self, deposit_amount):
+    self.amount += deposit_amount
+
+  def withdraw(self, withdraw_amount):
+    if self.amount > withdraw_amount:
+      self.amount -= withdraw_amount
+    else:
+      print("Error! Cannot withdraw larger than what you have.")
+
+  def display_amount(self):
+    print(self.amount)
+
+  def get_amount(self):
+    return (self.amount)
+
+
+class BusinessAccount(Account):
+
+  def __init__(self, cust_id, deposit_amount):
+    Account.__init__(self, cust_id)
+    self.amount = deposit_amount
+    self.withdraw_whole = 0
+    self.withdraw_part = 0
+
+  def deposit(self, deposit_amount):
+    self.amount += deposit_amount
+
+  def withdraw(self, withdraw_amount):
+    if self.amount > withdraw_amount:
+      self.amount -= withdraw_amount
+    else:
+      print("Error! Cannot withdraw larger than what you have.")
+
+  def display_amount(self):
+    print(self.amount)
+
+  def get_amount(self):
+    return (self.amount)
+
+
+if __name__ == '__main__':
+  isSessionOn = True
+  isCustomer = False
+
+  def initialise_objects():
+    global sally_checking, paolo_business, paolo_savings, master_list
+
+    sally_checking = CheckingAccount(1, 2567.50)
+    paolo_savings = SavingsAccount(2, 12890.01)
+    paolo_business = BusinessAccount(2, 14500.40)
+
+    master_list = [[sally_checking, 1, 1], [paolo_savings, 2, 2],
+                   [paolo_business, 2,
+                    3]]  #[accout-holder,type_of_account,index]
+
+    return None
+
+  initialise_objects()
+
+  while isSessionOn is True:
+    print("Welcome to 24-hour ATM service.")
+    print("Insert your card.")
+
+    customerID = int(input("Enter your customer id number: "))
+    cust_accounts = []
+    for i in master_list:
+      if i[1] == customerID:
+        cust_accounts.append(i[2])
+        isCustomer = True
+
+    if isCustomer is True:
+      isAccountSelected = False
+
+      while isAccountSelected is False:
+        print("Enter 1 for checking account")
+        print("Enter 2 for savings account")
+        print("Enter 3 for business account")
+        account_type = int(input("Enter which account to use: "))  #
+
+        if account_type in cust_accounts:
+          for x in master_list:
+            if account_type == x[2]:
+              objectName = x[0]
+
+          isAccountSelected = True
+          isAccountSessionOn = True
+
+          while isAccountSessionOn is True:
+            print("\nHow may I help you?")
+            print("Press 1 for balance view.")
+            print("Press 2 for withdrawals")
+            print("Press 3 for deposit")
+            print("Press 4 to exit.")
+
+            action_value = int(input(
+              "Please enter your choice: "))  #"Please enter your choice: "
+
+            if action_value == 1:
+              objectName.display_amount()
+              print("\n")
+
+            if action_value == 2:
+              amnt_to_withdraw = int(input("Enter the amount to withdraw: ")
+                                     )  #"Enter the amount to withdraw: "
+
+              objectName.withdraw(amnt_to_withdraw)
+              print("current balance is", objectName.get_amount())
+              print("\n")
+              
+            if action_value == 3:
+              amnt_to_deposit = int(input("Enter the amount to withdraw: ")
+                                    )  #"Enter the amount to withdraw: "
+              # print "adjusted_amount:", adjusted_amount
+              objectName.deposit(amnt_to_deposit)
+
+              print("current balance is", objectName.get_amount())
+              print("\n")
+              
+            if action_value == 4:
+              isAccountSessionOn = False
+              print("Thank for using the 24-hour ATM service.")
+              print("Have a pleasant day.")
+              print("\n\n")
+              print("##########################################")
+              # isAccountSessionOn = False #####
+            
+        else:
+          print("Error. You don't have that account.")
+          print("Please try again.\n")
+
+    else:
+      print("Cannot find your record.")
+      print("Please get your card.")
+      print("Exiting this session...")
+
